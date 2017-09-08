@@ -1,0 +1,16 @@
+[Unit]
+Description=Wildfly Server
+After=network.target
+
+[Service]
+Type=idle
+Environment=JAVA_HOME=/opt/jdk JBOSS_HOME={{ wildfly_home }} JAVA=/opt/jdk/bin/java "JAVA_OPTS=-Xms4096m -Xmx4096m"
+User=jboss
+Group=jboss
+ExecStart={{ wildfly_home }}/bin/standalone.sh -b 0.0.0.0
+ExecStop={{ wildfly_home }}/bin/jboss-cli.sh --user=jboss --password=jboss -c --controller=localhost:9990 --command=":shutdown"
+TimeoutStartSec=30
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target
