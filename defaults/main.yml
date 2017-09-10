@@ -1,2 +1,5 @@
 ---
-# defaults file for wildfly
+
+management_users:
+  - name: wildfly
+    password: wildfly

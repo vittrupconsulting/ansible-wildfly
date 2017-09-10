@@ -1,16 +1,7 @@
 ---
 
-  - name: Ensure that wildfly group is present
-    group:
-      name: wildfly
-
-  - name: Ensure that wildfly user is present
-    user:
-      name: wildfly
-      group: wildfly
-
-  - name: Setting password for management user
-    lineinfile:
-      path: "{{ wildfly_home }}/standalone/configuration/mgmt-users.properties"
-      regexp: "^wildfly="
-      line: "wildfly=e1622d34d8bad8fdd4dc842a97b2efa1"
+  - name: Adding wildfly management users
+    command: "{{ wildfly_home }}/bin/add-user.sh --username {{ item.name }} --password {{ item.password }}"
+    with_items:
+      "{{ management_users }}"
+      
