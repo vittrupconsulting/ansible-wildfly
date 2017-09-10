@@ -1,7 +1,7 @@
 ---
 
   - name: Adding wildfly management users
-    command: "{{ wildfly_home }}/bin/add-user.sh --username {{ item.name }} --password {{ item.password }}"
+    include: mgmt-user.yml 
     with_items:
       "{{ management_users }}"
       

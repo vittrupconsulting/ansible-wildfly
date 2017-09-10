@@ -4,11 +4,11 @@ After=network.target
 
 [Service]
 Type=idle
-Environment=JAVA_HOME=/opt/jdk JBOSS_HOME={{ wildfly_home }} JAVA=/opt/jdk/bin/java "JAVA_OPTS=-Xms4096m -Xmx4096m"
-User=jboss
-Group=jboss
-ExecStart={{ wildfly_home }}/bin/standalone.sh -b 0.0.0.0
-ExecStop={{ wildfly_home }}/bin/jboss-cli.sh --user=jboss --password=jboss -c --controller=localhost:9990 --command=":shutdown"
+Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64 JBOSS_HOME={{ wildfly_home }} JAVA=/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java 
+User=wildfly
+Group=wildfly
+ExecStart={{ wildfly_home }}/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
+ExecStop={{ wildfly_home }}/bin/jboss-cli.sh --user={{ management_users[0].name }} --password={{ management_users[0].password }} -c --controller=localhost:9990 --command=":shutdown"
 TimeoutStartSec=30
 TimeoutStopSec=10
 

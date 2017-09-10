@@ -1,0 +1,10 @@
+---
+
+- name: Check whether mgmt-users.properties contains user "{{ item.name }}"
+  command: awk /^{{ item.name }}=/ /opt/wildfly-11.0.0.CR1/standalone/configuration/mgmt-users.properties
+  register: check
+  changed_when: False
+
+- name: Adding missing wildfly management user "{{ item.name }}"
+  command: "{{ wildfly_home }}/bin/add-user.sh --user {{ item.name }} --password {{ item.password }}" 
+  when: not (check.stdout | search(item.name))  
